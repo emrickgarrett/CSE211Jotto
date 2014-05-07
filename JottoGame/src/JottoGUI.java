@@ -1,7 +1,10 @@
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * // TODO Write specifications for your JottoGUI class.
@@ -22,6 +27,7 @@ public class JottoGUI extends JFrame {
 	private JTextField guess;
 	private JTable guessTable;
 	private GridLayout content, gridTop, gridMid;
+	
 	public JottoGUI() {
 		newPuzzleButton = new JButton();
 		newPuzzleButton.setName("newPuzzleButton");
@@ -36,10 +42,33 @@ public class JottoGUI extends JFrame {
 		guessLabel = new JLabel("Type your guess here: ");
 		newPuzzleButton.setText("New Puzzle");
 		puzzleNumber.setText("Puzzle #");
+		guess.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendGuess(guess.getText());
+				
+			}
+			
+		});
 		
 		
 		
-		guessTable = new JTable(new String[][]{{"Guess","Count","In Order"},{"crazy", "3", "2"}}, new String[]{"Guess","Count","In Order"});
+		newPuzzleButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				newPuzzle();
+				
+			}
+			
+		});
+		
+		
+		
+		guessTable = new JTable(new DefaultTableModel(new String[]{"Column1", "Column2", "Column3"}, 0));
+		this.updateGuesses(new String[]{"Test", "Test2", "Test3"});
+		this.updateGuesses(new String[]{"Test4", "Test5", "Test6"});
 		guessTable.invalidate();
 		
 		
@@ -66,9 +95,11 @@ public class JottoGUI extends JFrame {
 		midPanel.add(guess);
 		mainContent.add(midPanel);
 		
+		//topPanel.setB
 		
 		mainContent.add(guessTable);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.add(mainContent);
 		this.setResizable(false);
@@ -89,5 +120,30 @@ public class JottoGUI extends JFrame {
 				main.setVisible(true);
 			}
 		});
+	}
+	
+	public void updateGuesses(String[] input){
+		((DefaultTableModel)guessTable.getModel()).addRow(input);
+	}
+	
+	public void resetGuesses(){
+		guessTable = new JTable(new String[][]{{}}, new String[]{});
+		guessTable.invalidate();
+	}
+	
+	public void wonGame(){
+		
+	}
+	
+	public void userResponse(){
+		
+	}
+	
+	private void sendGuess(String s){
+		
+	}
+	
+	private void newPuzzle(){
+		
 	}
 }
