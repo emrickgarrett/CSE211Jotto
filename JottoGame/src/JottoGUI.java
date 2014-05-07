@@ -48,6 +48,7 @@ public class JottoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sendGuess(guess.getText());
+				guess.setText("");
 				
 			}
 			
