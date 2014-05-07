@@ -27,6 +27,7 @@ public class JottoGUI extends JFrame {
 	private JTextField guess;
 	private JTable guessTable;
 	private GridLayout content, gridTop, gridMid;
+	private JottoClient client;
 	
 	public JottoGUI() {
 		newPuzzleButton = new JButton();
@@ -112,7 +113,7 @@ public class JottoGUI extends JFrame {
 				
 				JottoGUI main = new JottoGUI();
 				try {
-					JottoClient client = new JottoClient("127.0.0.1", 32500, main);
+					main.client = new JottoClient("127.0.0.1", 32500, main);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -135,15 +136,15 @@ public class JottoGUI extends JFrame {
 		
 	}
 	
-	public void userResponse(){
-		
-	}
-	
 	private void sendGuess(String s){
-		
+		client.sendGuess(s);
 	}
 	
 	private void newPuzzle(){
+		
+	}
+	
+	public void receiveReply(String response){
 		
 	}
 }

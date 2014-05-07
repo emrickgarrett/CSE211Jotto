@@ -16,6 +16,11 @@ public class JottoClient {
 			UnknownHostException, IOException {
 		new JottoClient("127.0.0.1", 32500);
 	}// end main*/
+	
+	public void sendGuess(String s){
+		
+	}
+	
 }// end class
 
 class JottoClientSendThread extends Thread {
@@ -23,11 +28,13 @@ class JottoClientSendThread extends Thread {
 	private final boolean listening = true;
 	DataOutputStream dos;
 	Scanner kb;
+	JottoGUI gui;
 
 	public JottoClientSendThread(Socket sendSocket, JottoGUI gui) throws IOException {
 		this.sendSocket = sendSocket;
 		dos = new DataOutputStream(sendSocket.getOutputStream());
 		kb = new Scanner(System.in);
+		this.gui = gui;
 	}
 
 	public void run() {
@@ -46,10 +53,12 @@ class JottoClientReceiveThread extends Thread {
 	Socket receiveSocket;
 	private final boolean listening = true;
 	DataInputStream dis;
+	JottoGUI gui;
 
 	public JottoClientReceiveThread(Socket receiveSocket, JottoGUI gui) throws IOException {
 		this.receiveSocket = receiveSocket;
 		dis = new DataInputStream(receiveSocket.getInputStream());
+		this.gui = gui;
 	}
 
 	public void run() {
@@ -58,6 +67,8 @@ class JottoClientReceiveThread extends Thread {
 				String reply;
 				reply = dis.readUTF();
 				System.out.println(reply);
+				gui.receiveReply(reply);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

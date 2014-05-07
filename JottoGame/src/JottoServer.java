@@ -134,5 +134,7 @@ class JottoServerThread extends Thread {
 		return "response " + inCommon + " " + exactPosition;
 
 	}
+	
+	
 
 }
