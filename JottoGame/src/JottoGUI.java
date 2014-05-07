@@ -142,10 +142,10 @@ public class JottoGUI extends JFrame {
 	}
 	
 	private void newPuzzle(){
-		
+		client.sendGuess("game restart");
 	}
 	
 	public void receiveReply(String response){
-		
+		System.out.println(response);
 	}
 }

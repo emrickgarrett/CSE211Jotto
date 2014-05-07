@@ -88,7 +88,6 @@ class JottoClientReceiveThread extends Thread {
 			while (listening) {
 				String reply;
 				reply = dis.readUTF();
-				System.out.println(reply);
 				gui.receiveReply(reply);
 				
 			}

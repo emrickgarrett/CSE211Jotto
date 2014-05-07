@@ -35,7 +35,7 @@ public class JottoServer {
 			wordList.add(sReader.nextLine());
 	}
 
-	protected void selectNewWord() {
+	protected static void selectNewWord() {
 		Random r = new Random();
 		guessWord = wordList.get(r.nextInt(wordList.size()));
 	}
@@ -104,18 +104,30 @@ class JottoServerThread extends Thread {
 
 	private String scoreWord(String receive) throws InterruptedException {
 		receive = receive.toLowerCase();
+		if(receive == null){
+			return "error 2";
+		}
 		
-		if (receive == null || receive.length() != 5)
-			return "word not 5 letters";
+		if (receive.length() != 5)
+			if(receive.equals("game restart")){
+				JottoServer.selectNewWord();
+				return "game restarted";
+			}else
+				return "word not 5 letters";
 		
 		if(!JottoServer.wordList.contains(receive))
 			return "not a dictionary word";
+		
+		if(receive.equals("game restart")){
+			JottoServer.selectNewWord();
+			return "game restarted";
+		}
 		
 		if(receive.contains("*"))
 			JottoServerThread.sleep(5000);
 		
 		if(receive.equals(JottoServer.guessWord))
-			return "correct!";
+			return "response 5 5 " + receive;
 
 		// check for all letters, no matter what position
 		int inCommon = 0;
@@ -131,7 +143,7 @@ class JottoServerThread extends Thread {
 				exactPosition++;
 		}
 
-		return "response " + inCommon + " " + exactPosition;
+		return "response " + inCommon + " " + exactPosition + " " + receive;
 
 	}
 	
