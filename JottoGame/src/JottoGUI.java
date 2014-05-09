@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +27,8 @@ public class JottoGUI extends JFrame {
 	private JLabel puzzleNumber, guessLabel;
 	private JTextField guess;
 	private JTable guessTable;
-	private GridLayout content, gridTop, gridMid;
+	private GridLayout gridTop, gridMid;
+	private BoxLayout content;
 	private JottoClient client;
 	
 	public JottoGUI() {
@@ -77,10 +79,10 @@ public class JottoGUI extends JFrame {
 		
 		
 		
-		content = new GridLayout(3,1);
 		gridTop = new GridLayout(1,3);
 		gridMid = new GridLayout(1,2);	
 		JPanel mainContent = new JPanel();
+		content = new BoxLayout(mainContent, BoxLayout.Y_AXIS);
 		
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(gridTop);
@@ -98,11 +100,12 @@ public class JottoGUI extends JFrame {
 		mainContent.add(midPanel);
 		
 		//topPanel.setB
+		this.invalidate();
 		
+		//guessTable.setSize(this.getWidth(), this.getHeight());
 		mainContent.add(guessTable);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		this.add(mainContent);
 		this.setResizable(false);
 		this.pack();
@@ -126,11 +129,17 @@ public class JottoGUI extends JFrame {
 	
 	public void updateGuesses(String[] input){
 		((DefaultTableModel)guessTable.getModel()).addRow(input);
+		guessTable.invalidate();
+		this.invalidate();
+		this.setSize(this.getWidth(), this.getHeight() + guessTable.getRowHeight());
+		
 	}
 	
 	public void resetGuesses(){
 		guessTable = new JTable(new String[][]{{}}, new String[]{});
 		guessTable.invalidate();
+		this.invalidate();
+		this.setSize(this.getWidth(), this.getHeight()+20);
 	}
 	
 	public void wonGame(){
@@ -147,5 +156,6 @@ public class JottoGUI extends JFrame {
 	
 	public void receiveReply(String response){
 		System.out.println(response);
+		
 	}
 }
