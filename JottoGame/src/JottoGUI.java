@@ -153,9 +153,14 @@ public class JottoGUI extends JFrame {
 	private void newPuzzle(){
 		client.sendGuess("game restart");
 	}
-	
-	public void receiveReply(String response){
-		System.out.println(response);
+   public void receiveReply(String response){
+		System.out.print(response);
+		if(response.equalsIgnoreCase("Game Restart")){
+			this.resetGuesses();
+		}
+		String [] guesses = response.split(" ");
 		
-	}
+		this.updateGuesses(new String[]{guesses[3],guesses[1],guesses[2]});
+		this.invalidate();
+   }
 }
